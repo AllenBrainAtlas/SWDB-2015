@@ -1,0 +1,93 @@
+{
+  "biophys": [{
+      "log_config_path": "logging.conf", 
+      "model_file": [ "config.json",
+                      "file:./mouse_models/472451419/472451419_fit.json?section=fit",
+                      "file:./mouse_models/472912177/472912177_fit.json?section=fit"
+                    ]
+    }],
+  "fit_ids": [ { "nr5a1": 0,
+                 "pvalb": 1 } ],
+  "neuron": [{
+      "hoc": [
+        "stdgui.hoc",
+        "import3d.hoc",
+        "cell.hoc"
+      ]
+    }],
+  "manifest": [
+    {
+      "type": "dir", 
+      "spec": ".", 
+      "key": "BASEDIR"
+    }, 
+    {
+      "type": "file", 
+      "spec": "./mouse_models/472451419/Nr5a1-Cre_Ai14_IVSCC_-177334.05.01.01_471120787_m_rot.swc",
+      "key": "MORPHOLOGY_nr5a1"
+    }, 
+    {
+      "type": "file", 
+      "spec": "./mouse_models/472912177/Pvalb-IRES-Cre_Ai14_IVSCC_-176847.04.02.01_470522102_m.swc",
+      "key": "MORPHOLOGY_pvalb"
+    }, 
+    {
+      "type": "dir", 
+      "spec": "modfiles", 
+      "key": "MODFILE_DIR"
+    }, 
+    {
+      "parent_key": "BASEDIR", 
+      "type": "file", 
+      "spec": "./input/db10cells.csv", 
+      "key": "CELL_DB"
+    },
+    {
+      "parent_key": "BASEDIR", 
+      "type": "file", 
+      "spec": "./input/stimulus.json", 
+      "key": "STIMULUS"
+    },
+    {
+      "parent_key": "BASEDIR", 
+      "type": "file", 
+      "spec": "./input/loc_con.hdf5", 
+      "key": "CONNECTIONS"
+    }
+
+  ],
+  "conditions": [
+  {
+    "celsius": 34.0, 
+    "erev": [
+      {
+        "ena": 53.0, 
+        "section": "soma", 
+        "ek": -107.0
+      }
+    ], 
+    "v_init": -80
+  }
+  ],
+  "synaptic":  
+	{
+	  "nr5a1": {
+		    "syn_Ve": 0,
+		    "src": {
+			"nr5a1" :{ "W": 8E-4, "D":2.0},
+			"pvalb" :{ "W": 3E-3, "D":2.0}
+		    }  
+	  	},
+	  "pvalb": {
+		    "syn_Ve": -90,
+		    "src": {
+			"nr5a1" :{ "W": 5.0E-4, "D":2.0},
+			"pvalb" :{ "W": 5.0E-3, "D":2.0}
+		    }  
+		}
+	},
+  "run": { "dt": 0.025, "tstop":2500}  
+}
+
+
+
