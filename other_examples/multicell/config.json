@@ -39,7 +39,7 @@
     {
       "parent_key": "BASEDIR", 
       "type": "file", 
-      "spec": "./input/db10cells.csv", 
+      "spec": "./input/cells.csv", 
       "key": "CELL_DB"
     },
     {
@@ -51,7 +51,7 @@
     {
       "parent_key": "BASEDIR", 
       "type": "file", 
-      "spec": "./input/loc_con.hdf5", 
+      "spec": "./input/connections.h5", 
       "key": "CONNECTIONS"
     }
 
