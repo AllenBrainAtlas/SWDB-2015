@@ -6,13 +6,13 @@ Each cells is associated with a unique gid which is used to identify each cell.
 
 The input to the model is provided in the `input/` directory:
 
-* `db10cells.csv` - cell data base (type, coordinates, etc.)
-* `loc_con.hdf5`  - cell-to-cell connectivity
+* `cells.csv` - cell data base (type, coordinates, etc.)
+* `connections.h5`  - cell-to-cell connectivity
 * `stimulus.json` - current clamp parameters
  
 The additional configuration of the model is in `config.json`.
 
-The code uses AllenSDK modules which needs to be installed to run the code.
+The code uses AllenSDK module, which needs to be installed to run the code.
 
 
 ## To run (on Linux):
