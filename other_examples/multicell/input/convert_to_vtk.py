@@ -1,10 +1,18 @@
-import sys
+import sys, os
 import csv
 import pandas as pd
+import copy
+
 from allensdk.config.model.formats.hdf5_util import Hdf5Util
+from allensdk.config.manifest import Manifest
+import allensdk.core.json_utilities as ju
+import allensdk.core.swc as swc
+
 import scipy.sparse
 from collections import Counter
 import argparse
+
+import tube
 
 SKIP_FIELDS = ['x', 'y', 'z', 'index', 'gid']
 
@@ -30,7 +38,9 @@ def convert_string_types_to_int(cells, field):
     for cell in cells:
         cell[field] = values[cell[field]]
 
-def write_vtk(file_name, cells, connections):
+def write_network_vtk(file_name, cells, connections):
+    cells = copy.deepcopy(cells)
+
     scalar_fields = [ ( k, get_vtk_dtype(v) ) for k,v in cells[0].iteritems() if k not in SKIP_FIELDS ]
 
     for i, (field, dtype) in enumerate(scalar_fields):
@@ -68,11 +78,42 @@ def write_vtk(file_name, cells, connections):
 
                 f.write("\n")
 
+def write_morphology_vtk(vtk_file_name, cells, manifest):
+    points = []
+
+    pds = []
+    for cell in cells:
+        swc_path = manifest.get_path('MORPHOLOGY_%s' % cell['type'])
+        morphology = swc.read_swc(swc_path)
+        root = morphology.root
+        rootp = { 'x': root['x'], 'y': root['y'], 'z': root['z'] }
+
+        for compartment in morphology.compartment_list:
+            compartment['x'] = compartment['x'] - rootp['x'] + float(cell['x'])
+            compartment['y'] = compartment['y'] - rootp['y'] + float(cell['y'])
+            compartment['z'] = compartment['z'] - rootp['z'] + float(cell['z'])
+
+        pd = tube.generate_polydata(morphology.compartment_index,
+                                    morphology.root)
+
+        pds.append(pd)
+
+    pd = tube.merge_polydata(pds)
+    tube.save_polydata(pd, vtk_file_name)
+
+    
+            
+
+
+        
+    
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('cells_csv', help='CSV containing cell metadata')
     parser.add_argument('connections_h5', help='HDF5 file containing cell connectivity')
-    parser.add_argument('vtk_file', help='.vtk output file')
+    parser.add_argument('network_vtk_file', help='.vtk output file')
+    parser.add_argument('--manifest')
+    parser.add_argument('--morphology_vtk_file')
 
     args = parser.parse_args()
 
@@ -86,9 +127,11 @@ def main():
     connections = h5u.read(args.connections_h5)
 
     # write out the results
-    write_vtk(args.vtk_file, cells, connections)
-    
+    write_network_vtk(args.network_vtk_file, cells, connections)
 
-    
+    if args.manifest:
+        config = ju.read(args.manifest)
+        manifest = Manifest(config['manifest'], relative_base_dir=os.path.dirname(args.manifest))
+        write_morphology_vtk(args.morphology_vtk_file, cells, manifest)
 
 if __name__ == "__main__": main()
