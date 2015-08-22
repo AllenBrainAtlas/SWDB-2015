@@ -87,18 +87,18 @@ def getMotionCorrection(NWB_file):
     f.close()
     return motion_correction
     
-def getMovieShape(NWB_file):
-    '''returns the shape of the hdf5 movie file'''
-    f = h5py.File(NWB_file, 'r')
-    print f['acquisition']['timeseries']['2p_image_series']['data'].shape
-    f.close()
-    return
-
-def getMovieSlice(NWB_file, t_values, x_values, y_values):
-    '''returns a slice of the hdf5 movie file. Must provide list of '''
-    f = h5py.File(NWB_file, 'r')
-    temp = f['acquisition']['timeseries']['2p_image_series']['data'][t_values,:,:]
-    temp2 = temp[:,x_values,:]
-    movie_slice = temp2[:,:,y_values]
-    f.close()
-    return movie_slice
+#def getMovieShape(NWB_file):
+#    '''returns the shape of the hdf5 movie file'''
+#    f = h5py.File(NWB_file, 'r')
+#    print f['acquisition']['timeseries']['2p_image_series']['data'].shape
+#    f.close()
+#    return
+#
+#def getMovieSlice(NWB_file, t_values, x_values, y_values):
+#    '''returns a slice of the hdf5 movie file. Must provide list of '''
+#    f = h5py.File(NWB_file, 'r')
+#    temp = f['acquisition']['timeseries']['2p_image_series']['data'][t_values,:,:]
+#    temp2 = temp[:,x_values,:]
+#    movie_slice = temp2[:,:,y_values]
+#    f.close()
+#    return movie_slice
