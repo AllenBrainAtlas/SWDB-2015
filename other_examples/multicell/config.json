@@ -22,16 +22,19 @@
       "key": "BASEDIR"
     }, 
     {
+      "parent_key": "BASEDIR", 
       "type": "file", 
       "spec": "./mouse_models/472451419/Nr5a1-Cre_Ai14_IVSCC_-177334.05.01.01_471120787_m_rot.swc",
       "key": "MORPHOLOGY_nr5a1"
     }, 
     {
+      "parent_key": "BASEDIR", 
       "type": "file", 
       "spec": "./mouse_models/472912177/Pvalb-IRES-Cre_Ai14_IVSCC_-176847.04.02.01_470522102_m.swc",
       "key": "MORPHOLOGY_pvalb"
     }, 
     {
+      "parent_key": "BASEDIR", 
       "type": "dir", 
       "spec": "modfiles", 
       "key": "MODFILE_DIR"
@@ -39,7 +42,7 @@
     {
       "parent_key": "BASEDIR", 
       "type": "file", 
-      "spec": "./input/db10cells.csv", 
+      "spec": "./input/cells.csv", 
       "key": "CELL_DB"
     },
     {
@@ -51,7 +54,7 @@
     {
       "parent_key": "BASEDIR", 
       "type": "file", 
-      "spec": "./input/loc_con.hdf5", 
+      "spec": "./input/connections.h5", 
       "key": "CONNECTIONS"
     }
 
