@@ -10,9 +10,9 @@ def generate_matrix( mcc, experiments_df, structures_df, hemisphere_ids = [2,1],
                         is_injection, parameter )
     
     # make column frame
-    hlabel = {1:'L', 2:'R', 3:''}
+    hlabel = {1:'-L', 2:'-R', 3:''}
     tt = zip(rm['columns'][:,1], rm['columns'][:,0])
-    clabels = [ structures_df.loc[s]['acronym'] + '-' + hlabel[h] for s,h in tt]
+    clabels = [ structures_df.loc[s]['acronym'] + hlabel[h] for s,h in tt]
     
     col_df = pd.DataFrame({'structure_id':rm['columns'][:,1], 
                            'hemisphere_id':rm['columns'][:,0],
